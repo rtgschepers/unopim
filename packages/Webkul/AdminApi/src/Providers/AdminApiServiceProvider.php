@@ -54,10 +54,8 @@ class AdminApiServiceProvider extends ServiceProvider
 
     /**
      * Register package config.
-     *
-     * @return void
      */
-    protected function registerConfig()
+    protected function registerConfig(): void
     {
         $this->mergeConfigFrom(
             dirname(__DIR__).'/Config/api.php', 'api'
@@ -74,10 +72,8 @@ class AdminApiServiceProvider extends ServiceProvider
 
     /**
      * Define the "api" routes for the application.
-     *
-     * @return void
      */
-    protected function registerApiRoutes()
+    protected function registerApiRoutes(): void
     {
         Route::prefix('api')
             ->middleware('api')
@@ -118,10 +114,8 @@ class AdminApiServiceProvider extends ServiceProvider
 
     /**
      * Activate middleware aliases.
-     *
-     * @return void
      */
-    protected function activateMiddlewareAliases()
+    protected function activateMiddlewareAliases(): void
     {
         collect($this->middlewareAliases)->each(function ($className, $alias) {
             $this->app['router']->aliasMiddleware($alias, $className);
@@ -130,10 +124,8 @@ class AdminApiServiceProvider extends ServiceProvider
 
     /**
      * Bind the the data to the views
-     *
-     * @return void
      */
-    protected function composeView()
+    protected function composeView(): void
     {
         view()->composer([
             'admin_api::integrations.api-keys.create',

@@ -2,8 +2,11 @@
 
 namespace Webkul\AdminApi\Repositories;
 
+use Laravel\Passport\Client;
 use Laravel\Passport\ClientRepository as BaseClientRepository;
 use Laravel\Passport\Passport;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class ClientRepository extends BaseClientRepository
 {
@@ -11,9 +14,11 @@ class ClientRepository extends BaseClientRepository
      * Get a client by the given ID.
      *
      * @param  int|string  $id
-     * @return \Laravel\Passport\Client|null
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function find($id)
+    public function find($id): ?Client
     {
         $client = Passport::client();
 
@@ -34,9 +39,8 @@ class ClientRepository extends BaseClientRepository
      * Get an active client by the given ID.
      *
      * @param  int|string  $id
-     * @return \Laravel\Passport\Client|null
      */
-    public function findActive($id)
+    public function findActive($id): ?Client
     {
         $client = $this->find($id);
 

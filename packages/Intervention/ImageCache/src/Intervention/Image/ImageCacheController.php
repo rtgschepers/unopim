@@ -4,9 +4,8 @@ namespace Intervention\Image;
 
 use Closure;
 use Config;
-use Intervention\Image\ImageManager;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Response as IlluminateResponse;
+use Illuminate\Routing\Controller as BaseController;
 
 class ImageCacheController extends BaseController
 {
@@ -14,8 +13,8 @@ class ImageCacheController extends BaseController
      * Get HTTP response of either original image file or
      * template applied file.
      *
-     * @param  string $template
-     * @param  string $filename
+     * @param  string  $template
+     * @param  string  $filename
      * @return Illuminate\Http\Response
      */
     public function getResponse($template, $filename)
@@ -35,8 +34,8 @@ class ImageCacheController extends BaseController
     /**
      * Get HTTP response of template applied image file
      *
-     * @param  string $template
-     * @param  string $filename
+     * @param  string  $template
+     * @param  string  $filename
      * @return Illuminate\Http\Response
      */
     public function getImage($template, $filename)
@@ -63,7 +62,7 @@ class ImageCacheController extends BaseController
     /**
      * Get HTTP response of original image file
      *
-     * @param  string $filename
+     * @param  string  $filename
      * @return Illuminate\Http\Response
      */
     public function getOriginal($filename)
@@ -76,7 +75,7 @@ class ImageCacheController extends BaseController
     /**
      * Get HTTP response of original image as download
      *
-     * @param  string $filename
+     * @param  string  $filename
      * @return Illuminate\Http\Response
      */
     public function getDownload($filename)
@@ -85,14 +84,14 @@ class ImageCacheController extends BaseController
 
         return $response->header(
             'Content-Disposition',
-            'attachment; filename=' . $filename
+            'attachment; filename='.$filename
         );
     }
 
     /**
      * Returns corresponding template object from given template name
      *
-     * @param  string $template
+     * @param  string  $template
      * @return mixed
      */
     protected function getTemplate($template)
@@ -104,9 +103,9 @@ class ImageCacheController extends BaseController
             case is_callable($template):
                 return $template;
 
-            // filter template found
+                // filter template found
             case class_exists($template):
-                return new $template();
+                return new $template;
 
             default:
                 // template not found
@@ -118,7 +117,7 @@ class ImageCacheController extends BaseController
     /**
      * Returns full image path from given filename
      *
-     * @param  string $filename
+     * @param  string  $filename
      * @return string
      */
     protected function getImagePath($filename)
@@ -126,7 +125,7 @@ class ImageCacheController extends BaseController
         // find file
         foreach (config('imagecache.paths') as $path) {
             // don't allow '..' in filenames
-            $image_path = $path . '/' . str_replace('..', '', $filename);
+            $image_path = $path.'/'.str_replace('..', '', $filename);
             if (file_exists($image_path) && is_file($image_path)) {
                 // file found
                 return $image_path;
@@ -140,7 +139,7 @@ class ImageCacheController extends BaseController
     /**
      * Builds HTTP response from given image data
      *
-     * @param  string $content
+     * @param  string  $content
      * @return Illuminate\Http\Response
      */
     protected function buildResponse($content)
@@ -156,10 +155,10 @@ class ImageCacheController extends BaseController
 
         // return http response
         return new IlluminateResponse($content, $status_code, [
-            'Content-Type' => $mime,
-            'Cache-Control' => 'max-age=' . (config('imagecache.lifetime') * 60) . ', public',
+            'Content-Type'   => $mime,
+            'Cache-Control'  => 'max-age='.(config('imagecache.lifetime') * 60).', public',
             'Content-Length' => strlen($content),
-            'Etag' => $etag
+            'Etag'           => $etag,
         ]);
     }
 }

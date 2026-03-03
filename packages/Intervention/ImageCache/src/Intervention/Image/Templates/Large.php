@@ -2,8 +2,8 @@
 
 namespace Intervention\Image\Templates;
 
-use Intervention\Image\Image;
 use Intervention\Image\Filters\FilterInterface;
+use Intervention\Image\Image;
 
 class Large implements FilterInterface
 {

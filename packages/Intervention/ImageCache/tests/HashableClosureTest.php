@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class HashableClosureTest extends TestCase
 {
-    public function testConstructor()
+    public function test_constructor()
     {
         $hashable = new HashableClosure(function () {
             return 'foo';
@@ -17,7 +17,7 @@ class HashableClosureTest extends TestCase
         $this->assertInstanceOf(HashableClosure::class, $hashable);
     }
 
-    public function testSetGetClosure()
+    public function test_set_get_closure()
     {
         $hashable = new HashableClosure(function () {
             return 'foo';
@@ -31,7 +31,7 @@ class HashableClosureTest extends TestCase
         $this->assertInstanceOf(SerializableClosure::class, $hashable->getClosure());
     }
 
-    public function testGetHash()
+    public function test_get_hash()
     {
         $hashable1 = new HashableClosure(function ($test) {
             $test->set('foo');

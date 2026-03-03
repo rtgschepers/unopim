@@ -9,10 +9,10 @@ use PHPUnit\Framework\TestCase;
 
 class CachedImageTest extends TestCase
 {
-    public function testSetFromOriginal()
+    public function test_set_from_original()
     {
         $image = $this->getTestImage();
-        $cachedImage = new CachedImage();
+        $cachedImage = new CachedImage;
         $cachedImage->setFromOriginal($image, 'foo-key');
 
         $this->assertInstanceOf(AbstractDriver::class, $cachedImage->getDriver());

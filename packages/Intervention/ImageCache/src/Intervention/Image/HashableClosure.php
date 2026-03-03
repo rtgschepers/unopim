@@ -16,8 +16,6 @@ class HashableClosure
 
     /**
      * Create new instance
-     *
-     * @param Closure $closure
      */
     public function __construct(Closure $closure)
     {
@@ -26,8 +24,6 @@ class HashableClosure
 
     /**
      * Set closure for hashing
-     *
-     * @param Closure $closure
      */
     public function setClosure(Closure $closure)
     {

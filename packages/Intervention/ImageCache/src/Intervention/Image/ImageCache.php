@@ -4,10 +4,9 @@ namespace Intervention\Image;
 
 use Carbon\Carbon;
 use Closure;
-use Exception;
 use Illuminate\Cache\FileStore;
-use Illuminate\Cache\Repository as Cache;
 use Illuminate\Cache\Repository;
+use Illuminate\Cache\Repository as Cache;
 use Illuminate\Filesystem\Filesystem;
 
 class ImageCache
@@ -15,7 +14,7 @@ class ImageCache
     /**
      * Cache lifetime in minutes
      *
-     * @var integer
+     * @var int
      */
     public $lifetime = 5;
 
@@ -57,9 +56,9 @@ class ImageCache
     /**
      * Create a new instance
      */
-    public function __construct(ImageManager $manager = null, Cache $cache = null)
+    public function __construct(?ImageManager $manager = null, ?Cache $cache = null)
     {
-        $this->manager = $manager ? $manager : new ImageManager();
+        $this->manager = $manager ? $manager : new ImageManager;
 
         if (is_null($cache)) {
             // get laravel app
@@ -79,11 +78,11 @@ class ImageCache
                 if (isset($manager->config['cache']['path'])) {
                     $path = $manager->config['cache']['path'];
                 } else {
-                    $path = __DIR__ . '/../../../storage/cache';
+                    $path = __DIR__.'/../../../storage/cache';
                 }
 
                 // create new default cache
-                $filesystem = new Filesystem();
+                $filesystem = new Filesystem;
                 $storage = new FileStore($filesystem, $path);
                 $this->cache = new Repository($storage);
             }
@@ -95,8 +94,8 @@ class ImageCache
     /**
      * Magic method to capture action calls
      *
-     * @param  String $name
-     * @param  Array $arguments
+     * @param  string  $name
+     * @param  array  $arguments
      * @return Intervention\Image\ImageCache
      */
     public function __call($name, $arguments)
@@ -109,7 +108,7 @@ class ImageCache
     /**
      * Special make method to add modifed data to checksum
      *
-     * @param  mixed $data
+     * @param  mixed  $data
      * @return Intervention\Image\ImageCache
      */
     public function make($data)
@@ -128,12 +127,12 @@ class ImageCache
     /**
      * Checks if given data is file, handles mixed input
      *
-     * @param  mixed $value
-     * @return boolean
+     * @param  mixed  $value
+     * @return bool
      */
     protected function isFile($value)
     {
-        $value = strval(str_replace("\0", "", $value));
+        $value = strval(str_replace("\0", '', $value));
 
         return strlen($value) <= PHP_MAXPATHLEN && is_file($value);
     }
@@ -141,8 +140,8 @@ class ImageCache
     /**
      * Set custom property to be included in checksum
      *
-     * @param mixed $key
-     * @param mixed $value
+     * @param  mixed  $key
+     * @param  mixed  $value
      * @return Intervention\Image\ImageCache
      */
     public function setProperty($key, $value)
@@ -162,20 +161,20 @@ class ImageCache
         $properties = serialize($this->properties);
         $calls = serialize($this->getSanitizedCalls());
 
-        return md5($properties . $calls);
+        return md5($properties.$calls);
     }
 
     /**
      * Register static call for later use
      *
-     * @param  string $name
+     * @param  string  $name
      * @param  array  $arguments
      * @return void
      */
     protected function registerCall($name, $arguments)
     {
         $this->calls[] = [
-            'name' => $name,
+            'name'      => $name,
             'arguments' => $arguments,
         ];
     }
@@ -233,7 +232,6 @@ class ImageCache
     /**
      * Build hash from closure
      *
-     * @param  Closure $closure
      * @return string
      */
     protected function getClosureHash(Closure $closure)
@@ -244,7 +242,7 @@ class ImageCache
     /**
      * Process call on current image
      *
-     * @param  array $call
+     * @param  array  $call
      * @return void
      */
     protected function processCall($call)
@@ -252,7 +250,7 @@ class ImageCache
         $this->image = call_user_func_array(
             [
                 $this->image,
-                $call['name']
+                $call['name'],
             ],
             $call['arguments']
         );
@@ -288,7 +286,7 @@ class ImageCache
      * and save image in cache if it's not saved yet
      *
      * @param  int  $lifetime
-     * @param  bool $returnObj
+     * @param  bool  $returnObj
      * @return mixed
      */
     public function get($lifetime = null, $returnObj = false)
@@ -305,7 +303,8 @@ class ImageCache
             // transform into image-object
             if ($returnObj) {
                 $image = $this->manager->make($cachedImageData);
-                return (new CachedImage())->setFromOriginal($image, $key);
+
+                return (new CachedImage)->setFromOriginal($image, $key);
             }
 
             // return raw data

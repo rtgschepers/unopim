@@ -32,7 +32,7 @@ return [
 
     'paths' => [
         public_path('upload'),
-        public_path('images')
+        public_path('images'),
     ],
 
     /*
@@ -52,9 +52,9 @@ return [
     */
 
     'templates' => [
-        'small' => 'Intervention\Image\Templates\Small',
+        'small'  => 'Intervention\Image\Templates\Small',
         'medium' => 'Intervention\Image\Templates\Medium',
-        'large' => 'Intervention\Image\Templates\Large',
+        'large'  => 'Intervention\Image\Templates\Large',
     ],
 
     /*

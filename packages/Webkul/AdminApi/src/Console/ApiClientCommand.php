@@ -2,6 +2,7 @@
 
 namespace Webkul\AdminApi\Console;
 
+use Laravel\Passport\Client;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Console\ClientCommand as Passport;
 use Webkul\User\Repositories\AdminRepository;
@@ -32,20 +33,16 @@ class ApiClientCommand extends Passport
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
-    public function handle(ClientRepository $clients)
+    public function handle(ClientRepository $clients): void
     {
         $this->createPasswordClient($clients);
     }
 
     /**
      * Create a new password grant client.
-     *
-     * @return void
      */
-    protected function createPasswordClient(ClientRepository $clients)
+    protected function createPasswordClient(ClientRepository $clients): Client
     {
         $userName = $this->option('user_name') ?: $this->ask(
             'Which user Name should the client be assigned to?'
@@ -53,9 +50,7 @@ class ApiClientCommand extends Passport
 
         $user = $this->adminRepository->findByField('email', $userName)->first();
         if (! $user) {
-            $this->error('User not found.');
-
-            return;
+            $this->fail('User not found.');
         }
 
         $name = $this->option('name') ?: $this->ask(
@@ -68,11 +63,13 @@ class ApiClientCommand extends Passport
         $provider = $providers[0];
 
         $client = $clients->createPasswordGrantClient(
-            $user->id, $name, 'http://localhost', $provider
+            $name, $provider, 'http://localhost'
         );
 
         $this->components->info('Password grant client created successfully.');
 
         $this->outputClientDetails($client);
+
+        return $client;
     }
 }

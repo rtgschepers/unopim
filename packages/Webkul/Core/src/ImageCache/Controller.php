@@ -2,9 +2,11 @@
 
 namespace Webkul\Core\ImageCache;
 
+use Closure;
 use Config;
 use Illuminate\Http\Response as IlluminateResponse;
-use Intervention\Image\ImageCacheController;
+use Illuminate\Routing\Controller as ImageCacheController;
+use Intervention\Image\ImageManager;
 
 class Controller extends ImageCacheController
 {

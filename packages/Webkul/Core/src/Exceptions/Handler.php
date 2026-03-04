@@ -2,8 +2,9 @@
 
 namespace Webkul\Core\Exceptions;
 
-use App\Exceptions\Handler as BaseHandler;
+use Illuminate\Foundation\Exceptions\Handler as BaseHandler;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -34,13 +35,13 @@ class Handler extends BaseHandler
     /**
      * Render an exception into an HTTP response.
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
-        if ($exception instanceof PostTooLargeException) {
-            return response()->view('admin::errors.index', ['errorCode' => $exception->getStatusCode() ?? 413]);
+        if ($e instanceof PostTooLargeException) {
+            return response()->view('admin::errors.index', ['errorCode' => $e->getStatusCode() ?? 413]);
         }
 
-        return parent::render($request, $exception);
+        return parent::render($request, $e);
     }
 
     /**
